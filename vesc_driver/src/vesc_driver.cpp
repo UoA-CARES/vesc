@@ -210,36 +210,39 @@ void VescDriver::vescPacketCallback(const std::shared_ptr<VescPacket const> & pa
     imu_msg.header.stamp = now();
     std_imu_msg.header.stamp = now();
 
-    imu_msg.imu.ypr.x = imuData->roll();
-    imu_msg.imu.ypr.y = imuData->pitch();
-    imu_msg.imu.ypr.z = imuData->yaw();
+    // Change angle unit from deg to rad
+    // Change acceleration unit from g to ms^-2
+    // http://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/Imu.html
+    imu_msg.imu.ypr.x = imuData->roll() * 0.01745329251;
+    imu_msg.imu.ypr.y = imuData->pitch() * 0.01745329251;
+    imu_msg.imu.ypr.z = imuData->yaw() * 0.01745329251;
 
-    imu_msg.imu.linear_acceleration.x = imuData->acc_x();
-    imu_msg.imu.linear_acceleration.y = imuData->acc_y();
-    imu_msg.imu.linear_acceleration.z = imuData->acc_z();
+    imu_msg.imu.linear_acceleration.x = imuData->acc_x() * 9.80665;
+    imu_msg.imu.linear_acceleration.y = imuData->acc_y() * 9.80665;
+    imu_msg.imu.linear_acceleration.z = imuData->acc_z() * 9.80665;
 
-    imu_msg.imu.angular_velocity.x = imuData->gyr_x();
-    imu_msg.imu.angular_velocity.y = imuData->gyr_y();
-    imu_msg.imu.angular_velocity.z = imuData->gyr_z();
+    imu_msg.imu.angular_velocity.x = imuData->gyr_x() * 0.01745329251;
+    imu_msg.imu.angular_velocity.y = imuData->gyr_y() * 0.01745329251;
+    imu_msg.imu.angular_velocity.z = imuData->gyr_z() * 0.01745329251;
 
-    imu_msg.imu.compass.x = imuData->mag_x();
-    imu_msg.imu.compass.y = imuData->mag_y();
-    imu_msg.imu.compass.z = imuData->mag_z();
+    imu_msg.imu.compass.x = imuData->mag_x() * 0.01745329251;
+    imu_msg.imu.compass.y = imuData->mag_y() * 0.01745329251;
+    imu_msg.imu.compass.z = imuData->mag_z() * 0.01745329251;
 
-    imu_msg.imu.orientation.w = imuData->q_w();
+    imu_msg.imu.orientation.w = imuData->q_w() * 0.01745329251;
     imu_msg.imu.orientation.x = imuData->q_x();
     imu_msg.imu.orientation.y = imuData->q_y();
     imu_msg.imu.orientation.z = imuData->q_z();
 
-    std_imu_msg.linear_acceleration.x = imuData->acc_x();
-    std_imu_msg.linear_acceleration.y = imuData->acc_y();
-    std_imu_msg.linear_acceleration.z = imuData->acc_z();
+    std_imu_msg.linear_acceleration.x = imuData->acc_x() * 9.80665;
+    std_imu_msg.linear_acceleration.y = imuData->acc_y() * 9.80665;
+    std_imu_msg.linear_acceleration.z = imuData->acc_z() * 9.80665;
 
-    std_imu_msg.angular_velocity.x = imuData->gyr_x();
-    std_imu_msg.angular_velocity.y = imuData->gyr_y();
-    std_imu_msg.angular_velocity.z = imuData->gyr_z();
+    std_imu_msg.angular_velocity.x = imuData->gyr_x() * 0.01745329251;
+    std_imu_msg.angular_velocity.y = imuData->gyr_y() * 0.01745329251;
+    std_imu_msg.angular_velocity.z = imuData->gyr_z() * 0.01745329251;
 
-    std_imu_msg.orientation.w = imuData->q_w();
+    std_imu_msg.orientation.w = imuData->q_w() * 0.01745329251;
     std_imu_msg.orientation.x = imuData->q_x();
     std_imu_msg.orientation.y = imuData->q_y();
     std_imu_msg.orientation.z = imuData->q_z();
